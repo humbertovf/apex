@@ -1,4 +1,5 @@
 pageobjects/TiendaPage.class
 globalvariables/GlobalVariables.class
+pageobjects/LoginPage.class
 driversetup/SetupDriver.class
 pageobjects/HomePage.class
