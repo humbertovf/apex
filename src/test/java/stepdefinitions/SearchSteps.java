@@ -1,16 +1,18 @@
 package stepdefinitions;
 
-import dev.failsafe.Timeout;
 import driversetup.SetupDriver;
 import globalvariables.GlobalVariables;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
-import org.testng.annotations.Test;
 import pageobjects.HomePage;
 import pageobjects.TiendaPage;
 
@@ -19,17 +21,26 @@ import java.util.concurrent.TimeUnit;
 
 public class SearchSteps {
 
-    @Test
-    public void test(){
-        System.out.println("hola");
-    }
+
     WebDriver driver = SetupDriver.setupDriver();
     HomePage homePage = new HomePage(driver);
     TiendaPage tiendaPage = new TiendaPage(driver);
 
-    List<WebElement> checkBoxes =  tiendaPage.checkBoxList();
+    //List<WebElement> checkBoxes = tiendaPage.checkBoxList();
 
-    public void implicitWait(){
+    Actions action = new Actions(driver);
+
+    @Before
+    public void setup() {
+        driver.manage().window().maximize();
+    }
+
+    @After
+    public void exit() {
+        driver.quit();
+    }
+
+    public void implicitWait() {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
@@ -37,18 +48,20 @@ public class SearchSteps {
     public void i_access_liverpool_homepage() {
 
         driver.get(GlobalVariables.HOME_PAGE);
-        driver.manage().window().maximize();
     }
+
     @When("^I input (.+) as article in search bar$")
-    public void i_input_switch_as_article_in_search_bar(String article) {
+    public void searchArticle(String article) {
         homePage.inputArticleSearchBar(article);
     }
+
     @And("^I click on the search button$")
     public void i_click_on_the_search_button() {
         homePage.clickSearchBtn();
     }
+
     @Then("^I should be presented with the (?:successful|error) message (.+)$")
-    public void validateResults(String msg) {
+    public void validateResults(String msg) throws InterruptedException {
 
         implicitWait();
 
@@ -56,39 +69,39 @@ public class SearchSteps {
         boolean noResults = msg.contains("Lo sentimos, no encontramos nada para ");
 
 
-        if (results){
-            String[] actualMsg = tiendaPage.successMsg().split(" ",0);
+        if (results) {
+            String[] actualMsg = tiendaPage.successMsg().split(" ", 0);
             Assert.assertEquals(tiendaPage.successMsg().contains("resultados"), msg.contains("resultados"));
+            Thread.sleep(5000);
         } else if (noResults) {
-           Assert.assertEquals(tiendaPage.productNotFound().contains("Lo sentimos"), msg.contains("Lo sentimos"));
+            Assert.assertEquals(tiendaPage.productNotFound().contains("Lo sentimos"), msg.contains("Lo sentimos"));
         }
+    }
 
-        driver.quit();
-    }
     @When("^I select (.+) at the \"Marcas\" panel$")
-    public void i_select_acer_at_the_panel(String brand) {
+    public void selectBrand(String brand) {
+
         implicitWait();
-        tiendaPage.checkBoxBrand(driver, brand);
+        tiendaPage.viewMoreClick();
+
+        WebElement brandBox = driver.findElement(By.xpath("//input[@id='brand-" + brand.toUpperCase() + "']"));
+
+        brandBox.click();
+
+        System.out.println("fin del metodo marcas");
+
     }
+
     @When("^I select (.+) at the \"Modelo del Procesador\" panel$")
-    public void selectProcessor(String processorBrand) throws InterruptedException {
-        implicitWait();
-        Thread.sleep(3000);
+    public void selectProcessor(String processorBrand) {
+
+        List<WebElement> checkBoxes = tiendaPage.checkBoxList();
+        tiendaPage.viewMoreClick();
         for (int i = 0; i < checkBoxes.size(); i++) {
             String value = checkBoxes.get(i).getAttribute("id");
-            if (value.equals("dynamicFacets.ae494-" + processorBrand)){
+            if (value.equals("dynamicFacets.ae494-" + processorBrand)) {
                 checkBoxes.get(i).click();
-            }
-        }
-    }
-    @When("^I select (.+) Gb of RAM Memory at the \"Memoria RAM\" panel$")
-    public void selectRAM(String ramSize) throws InterruptedException {
-        implicitWait();
-        Thread.sleep(3000);
-        for (int i = 0; i < checkBoxes.size(); i++) {
-            String value = checkBoxes.get(i).getAttribute("id");
-            if (value.equals("dynamicFacets.memoriaramatt-" + ramSize + "GB")){
-                checkBoxes.get(i).click();
+                break;
             }
         }
     }

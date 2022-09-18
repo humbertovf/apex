@@ -1,7 +1,9 @@
 package driversetup;
 
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -11,7 +13,9 @@ public class SetupDriver {
 
         String exePath = Paths.get("").toAbsolutePath().toString() + File.separator + "drivers" + File.separator; //Set path of our driver
         System.setProperty("webdriver.chrome.driver", exePath + "chromedriver"); //Identifying .exe for the driver
-        WebDriver driver = new ChromeDriver(); //Instancia de ChromeDriver para usar sus metodos
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+        WebDriver driver = new ChromeDriver(chromeOptions); //Instancia de ChromeDriver para usar sus metodos
 
 
         return driver;
