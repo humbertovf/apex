@@ -3,7 +3,7 @@ package runners;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
-@CucumberOptions(features = {"classpath:features"}, glue = {"stepdefinitions"}, tags = "@story3", monochrome = false, dryRun = false)
+@CucumberOptions(features = {"classpath:features"}, glue = {"stepdefinitions"}, tags = "@apex", monochrome = false, dryRun = false, plugin = {"pretty", "html:target/cucumber.json"})
 public class MainRunner extends AbstractTestNGCucumberTests {
 
 }

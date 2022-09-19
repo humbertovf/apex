@@ -1,4 +1,3 @@
-stepdefinitions/SearchSteps.class
 runners/MainRunner.class
-stepdefinitions/BuySteps.class
+stepdefinitions/StepDefinitions.class
 stepdefinitions/CreateAccountSteps.class

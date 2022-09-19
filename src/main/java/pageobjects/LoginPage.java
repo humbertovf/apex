@@ -6,21 +6,23 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.List;
+
 public class LoginPage {
     public LoginPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(css = "#email")
+    @FindBy(id = "email")
     private WebElement emailTxt;
-    @FindBy(css = "#password")
+    @FindBy(id = "password")
     private WebElement passwordTxt;
 
     @FindBy(css = "button[value='default']")
-    private WebElement crearCuentaBtn;
+    private WebElement loginBtn;
 
-    @FindBy(css = "span[class='a-header__topLink']")
-    private WebElement crearCuentaLink;
+    @FindBy(css = ".cf011ff1b.c18b51cba")
+    private List<WebElement> crearCuentaLink;
 
     @FindBy(css = "#input-user__name")
     private WebElement userNameTxt;
@@ -46,6 +48,12 @@ public class LoginPage {
     @FindBy(css = ".a-btn.a-btn--primary")
     private WebElement createAccountBtn;
 
+    @FindBy(css = ".cdbc688fa.c8d8a86c6")
+    private WebElement validationMsg;
+
+    @FindBy(id = "error-element-email")
+    private WebElement erroValidationMsg;
+
 
     public void email(String email){
         emailTxt.sendKeys(email);
@@ -55,12 +63,12 @@ public class LoginPage {
         passwordTxt.sendKeys(password);
     }
 
-    public void clickCrearCuentaLink(){
-        crearCuentaLink.click();
+    public List<WebElement> crearCuentaLink(){
+        return crearCuentaLink;
     }
 
-    public void clickCrearCuentaBtn(){
-        crearCuentaBtn.click();
+    public void clickLoginBtn(){
+        loginBtn.click();
     }
 
     public void sendUserName(String userName){
@@ -99,5 +107,15 @@ public class LoginPage {
 
     public void clickCreateAccountBtn(){
         createAccountBtn.click();
+    }
+
+    public String successfulMsg(){
+        String msgTxt = validationMsg.getText();
+        return msgTxt;
+    }
+
+    public String errorValidationMsg(){
+        String errorMsgTxt = erroValidationMsg.getText();
+        return errorMsgTxt;
     }
 }

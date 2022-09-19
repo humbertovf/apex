@@ -35,10 +35,6 @@ public class TiendaPage {
     @FindBy(id = "search-filter-brands")
     private WebElement searchBrandTxt;
 
-    public void checkBoxBrand(WebDriver driver, String brand) {
-        //Dynamically set the brand to the xpath
-        driver.findElement(By.xpath("//input[@id='brand-"+brand.toUpperCase()+"']")).click();
-    }
 
     public void viewMoreClick(){
         for (int i = 0; i < viewMore.size(); i++) {
@@ -64,11 +60,4 @@ public class TiendaPage {
         return errorMsg;
     }
 
-    /*public void selectBrand(WebDriver driver, String brand){
-        driver.findElement(By.id("brand-"+brand)).click();
-    }*/
-
-    public void typeBrand(String brand){
-        searchBrandTxt.sendKeys(brand);
-    }
 }
