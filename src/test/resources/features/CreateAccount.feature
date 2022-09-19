@@ -15,4 +15,4 @@ Feature: Create an account
 
     Examples:
       | email                | password | nombre | apellidoPaterno | apellidoMaterno | dia | mes | año  | loginValidationText     |
-      | ngrasde@gmail.com | T35t4p3x | asdf   | ewrtsdfgdf      | jhgfjtyuy       | 27  | Feb | 1993 | Verificación de celular |
+      | poiqwern_14@gmail.com | T35t4p3x | asdf   | ewrtsdfgdf      | jhgfjtyuy       | 27  | Feb | 1993 | Verificación de celular |
